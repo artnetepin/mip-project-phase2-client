@@ -95,6 +95,9 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
             templateUrl: 'templates/browse-detail.html',
             controller: 'BrowseDetailCtrl'
           }
+        },
+        params: {
+          id: null
         }
       })
 

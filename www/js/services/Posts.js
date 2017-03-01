@@ -36,6 +36,14 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
         // resolve(posts); // placeholder
       });
     },
+
+    getPost: function(postid) {
+      return $q(function(resolve, reject) {
+        $http.get(appConfig.apiAddr + "posts/" + postid).then(function(response) {
+          resolve(response.data);
+        });
+      });
+    },
     new: function(imageUri, caption) {
       return $q(function(resolve, reject) {
         var newPost = {

@@ -1,5 +1,5 @@
 angular.module('someklone.config', []).constant('appConfig', {
-  "apiAddr": "https://localhost:3000"
+  "apiAddr": "https://serene-earth-36095.herokuapp.com/"
 });
 
 // Declare the services module
@@ -39,6 +39,18 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
     // Each state's controller can be found in controllers.js
     $stateProvider
 
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+      })
+
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'templates/signup.html',
+        controller: 'SignupCtrl'
+      })
+
       // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
@@ -70,6 +82,9 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
             templateUrl: 'templates/tab-browse.html',
             controller: 'BrowseCtrl'
           }
+        },
+        params: {
+          id: null
         }
       })
 
@@ -130,25 +145,8 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
         controller: 'PostConfirmCtrl',
         params: {
           imageUri: null
-        },
-        resolve: {
-          islogged: function(Users) {
-            return Users.isLogged();
-          }
         }
       })
-
-      .state('login', {
-        url: '/login',
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
-      })
-
-      // .state('signup', {
-      //   url: '/signup',
-      //   templateUrl: 'templates/signup.html',
-      //   controller: 'SignupCtrl'
-      // })
 
       .state('comment', {
         url: '/comment/:postId',

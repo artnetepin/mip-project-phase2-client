@@ -82,10 +82,12 @@ angular.module('someklone.controllers', [])
     }
   })
 
-  .controller('BrowseDetailCtrl', function($scope, $stateParams) {
-    console.log($stateParams);
+  .controller('BrowseDetailCtrl', function($scope, $stateParams, Posts, $ionicHistory) {
+    // console.log($stateParams.id);
+    Posts.getPost($stateParams.id).then(function(results) {
+      $scope.post = results;
+    })
   })
-
   .controller('SearchCtrl', function($scope, $state, $ionicHistory, Users) {
 
     $scope.input = {

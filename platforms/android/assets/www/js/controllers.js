@@ -16,7 +16,11 @@ angular.module('someklone.controllers', [])
     }
   })
 
-  .controller('BrowseCtrl', function($scope, $state) {
+  .controller('BrowseCtrl', function($scope, $state, $stateParams, Users, Posts) {
+
+    Posts.getUserPosts($stateParams.id).then(function(results) {
+      $scope.posts = results;
+    });
 
     $scope.activateSearch = function() {
       $state.go('tab.browse-search');
@@ -49,9 +53,9 @@ angular.module('someklone.controllers', [])
         });
       });
     }
-    // $scope.signUp = function(){
-    //   $state.go('signup');
-    // }
+    $scope.signUp = function() {
+      $state.go('signup');
+    }
   })
 
   .controller('SignupCtrl', function($scope, Users, $ionicPopup, $ionicHistory, $state) {
@@ -65,14 +69,14 @@ angular.module('someklone.controllers', [])
           disableBack: true
         });
         var alertPopup = $ionicPopup.alert({
-          title: 'Done',
-          template: 'Account created'
+          title: 'Success!',
+          template: 'Account created!'
         });
-        $state.go('login');
+        $state.go('tab.home');
       }).catch(function() {
         var alertPopup = $ionicPopup.alert({
-          title: 'SignUp fail',
-          template: 'Something is wrong'
+          title: 'Sign Up failed',
+          template: 'Something went wrong. Please, try again.'
         });
       });
     }
@@ -129,6 +133,15 @@ angular.module('someklone.controllers', [])
 
       }
     };
+
+    $scope.showPosts = function(id) {
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+      $state.go('tab.browse', {
+        id: id
+      });
+    };
   })
 
   .controller('PostCtrl', function($scope, $state, $ionicHistory, $ionicPlatform, $cordovaCamera, $ionicScrollDelegate) {
@@ -155,7 +168,7 @@ angular.module('someklone.controllers', [])
 
       var options = {
         // Some common settings are 20, 50, and 100
-        quality: 50,
+        quality: 20,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.CAMERA,
         encodingType: Camera.EncodingType.JPEG,
@@ -179,25 +192,9 @@ angular.module('someklone.controllers', [])
       $scope.tabs.photo = false;
       $scope.tabs.gallery = true;
 
-      // fetch photos from "Camera" album - this works in Android, not tested with iOS
-      // galleryAPI provided by https://github.com/subitolabs/cordova-gallery-api
-      // galleryAPI.getMedia("Camera", function(items) {
-      //     console.log(items);
-
-      //     $scope.imageData.gallery.photos = items.filter(function(i){  // filter out images, which do not have thumbnail
-      //         if(i.thumbnail_id != 0) // the id will be zero for images, which do not have thumbnails
-      //         {
-      //             return true;
-      //         }
-      //         else
-      //         {
-      //             return false;
-      //         }
-      //     });
-      // });
       var options = {
         // Some common settings are 20, 50, and 100
-        quality: 50,
+        quality: 20,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
         encodingType: Camera.EncodingType.JPEG,
@@ -217,21 +214,6 @@ angular.module('someklone.controllers', [])
       });
 
     };
-
-    // $scope.selectGalleryImage = function(photo)
-    // {
-    //     $scope.imageData.picture = "file://" + photo.data;
-    //     $ionicScrollDelegate.scrollTop();
-    // };
-
-    // $scope.confimPost = function()
-    // {
-    //     // pass the picture URI to the confirm state
-    //     $state.go('post-confirm', { imageUri: $scope.imageData.picture });
-    // };
-
-    // $scope.gallery(); // execute gallery when the controller is run first time
-
   })
 
   .controller('PostConfirmCtrl', function($scope, $state, $stateParams, $ionicHistory, Posts) {
