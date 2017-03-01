@@ -1,0 +1,14 @@
+<ion-view view-title="Browse">
+  <ion-header-bar align-title="left" ng-click="activateSearch()">
+    <div class="buttons">
+      <button class="button button-icon ion-ios-search-strong"> Search</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="imageHolder">
+      <div class="imageFrameThree" ng-repeat="p in posts">
+        <img ng-src="{{ p.imageThumbnail }}" ng-click="browseDetail(p.id)">
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
